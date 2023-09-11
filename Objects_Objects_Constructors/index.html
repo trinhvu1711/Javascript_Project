@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="Library.js"></script>
+</head>
+
+<body>
+  <div class="container-sm">
+    <div class="add-book">
+      <form class="row g-3" id="myForm">
+        <div class="mb-3">
+          <label for="formGroupExampleInput" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="">
+        </div>
+        <div class="mb-3">
+          <label for="formGroupExampleInput2" class="form-label">Author</label>
+          <input type="text" class="form-control" id="author" placeholder="">
+        </div>
+        <div class="mb-3">
+          <label for="formGroupExampleInput3" class="form-label">Number of pages</label>
+          <input type="number" class="form-control" id="numPage" placeholder="">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="isReaded">
+          <label class="form-check-label" for="exampleCheck1">Is readed</label>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add book</button>
+        </div>
+      </form>
+    </div>
+    <div class="row row-cols-2 text-center gap-3 p-2" id="bookContainer">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Book title</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Book Author</h6>
+          <p class="card-text">Number of pages: 13</p>
+          <button type="button" class="btn btn-danger">Not read</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function printAllBooks() {
+      // Select the container where you want to display the book cards
+      var $bookContainer = $("#bookContainer");
+      // Clear any existing content in the container
+      $bookContainer.empty();
+      //Loop through myLibrary and create a card for each book
+      $.each(myLibrary, function (index, book) {
+        // Create a card element
+        var $card = $("<div>").addClass("card").css("width", "18rem");
+        // Create the card body
+        var $cardBody = $("<div>").addClass("card-body");
+        // Create card title
+        var $cardTitle = $("<h5>").addClass("card-title").text(book.title);
+        // Create card subtitle for author
+        var $cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-muted").text(book.author);
+        // Create card text for number of pages
+        var $cardText = $("<p>").addClass("card-text").text("Number of pages: " + book.numPages);
+        // Create a button to toggle read status
+        var $toggleButton = $("<button>")
+          .addClass("btn btn-success")
+          .text(book.isReaded ? "Read" : "Not read")
+          .click(function () {
+            // Toggle the read status when the button is clicked
+            book.isReaded = !book.isReaded;
+            // Update the button text
+            $(this).text(book.isReaded ? "Read" : "Not read")
+              .removeClass("btn-success")
+              .addClass("btn-danger")
+          });
+        // Append all elements to the card body
+        $cardBody.append($cardTitle, $cardSubtitle, $cardText, $toggleButton);
+        // Append the card body to the card
+        $card.append($cardBody);
+        // Append the card to the book container
+        $bookContainer.append($card);
+      });
+    }
+    // Call the function to display the book cards
+    printAllBooks();
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $("#myForm").submit(function (event) {
+        event.preventDefault();
+        var title = $("#title").val()
+        var author = $("#author").val()
+        var numPage = $("#numPage").val()
+        var isReaded = $("#isReaded").val()
+        const book = new Book(author, title, numPage, isReaded === 'on' ? true : false)
+        addBookToLibrary(book);
+        printAllBooks()
+      })
+    })
+  </script>
+</body>
+
+</html>
