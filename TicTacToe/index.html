@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicTacToe</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div class="board">
+    <div class="board-item" onclick="playerMove(1)"></div>
+    <div class="board-item" onclick="playerMove(2)"></div>
+    <div class="board-item" onclick="playerMove(3)"></div>
+    <div class="board-item" onclick="playerMove(4)"></div>
+    <div class="board-item" onclick="playerMove(5)"></div>
+    <div class="board-item" onclick="playerMove(6)"></div>
+    <div class="board-item" onclick="playerMove(7)"></div>
+    <div class="board-item" onclick="playerMove(8)"></div>
+    <div class="board-item" onclick="playerMove(9)"></div>
+  </div>
+</body>
+<script>
+  const player1 = player(true, [], false)
+  const player2 = player(false, [], false)
+  const item = document.querySelectorAll('.board-item')
+  const player1Turn = true;
+
+  function playerMove(pos) {
+    const boardPlayer = item[pos - 1]
+    if (player1Turn) {
+      boardPlayer.classList.add('isX');
+      boardPlayer.textContent = 'X'
+      player1.move(pos)
+      player1Turn = false
+    }
+    else {
+      boardPlayer.classList.add('isO');
+      boardPlayer.textContent = 'O'
+      player2.move(pos)
+      player1Turn = true
+    }
+  }
+</script>
+
+</html>
