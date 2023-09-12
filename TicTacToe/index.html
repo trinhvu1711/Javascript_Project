@@ -26,7 +26,16 @@
   const player1 = player(true, [], false)
   const player2 = player(false, [], false)
   const item = document.querySelectorAll('.board-item')
-  const player1Turn = true;
+  let player1Turn = true;
+
+  function checkWin(player) {
+    if (player.getIsWin()) {
+      setTimeout(function () {
+        alert(player.isPlayer1 ? 'player 1 win' : 'player 2 win');
+        location.reload();
+      }, 200); // 500 milliseconds (0.5 seconds) delay
+    }
+  }
 
   function playerMove(pos) {
     const boardPlayer = item[pos - 1]
@@ -35,12 +44,16 @@
       boardPlayer.textContent = 'X'
       player1.move(pos)
       player1Turn = false
+      boardPlayer.removeAttribute('onclick')
+      checkWin(player1)
     }
     else {
       boardPlayer.classList.add('isO');
       boardPlayer.textContent = 'O'
       player2.move(pos)
       player1Turn = true
+      console.log(player2.step);
+      checkWin(player2)
     }
   }
 </script>
